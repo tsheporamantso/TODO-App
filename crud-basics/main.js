@@ -30,10 +30,19 @@ const displayPost = () => {
     <div>
     <p>${data.text}</p>
     <span class="options">
-      <i class="fa-solid fa-pen-to-square fa-beat"></i>
-      <i class="fa-regular fa-trash-can fa-beat"></i>
+      <i onClick="editPost(this)" class="fa-solid fa-pen-to-square fa-beat"></i>
+      <i onClick="deletePost(this)" class="fa-regular fa-trash-can fa-beat"></i>
     </span>
   </div>
     `;
     input.value = "";
+}
+
+const deletePost = (event) => {
+    event.parentElement.parentElement.remove();
+}
+
+const editPost = (event) => {
+    input.value = event.parentElement.previousElementSibling.innerHTML;
+    event.parentElement.parentElement.remove();
 }
