@@ -12,5 +12,13 @@ const formValidation = () => {
         msg.innerHTML = "Post cannot be blank!"
     } else {
         msg.innerHTML = "";
+        acceptData();
     }
+}
+
+const data = {};
+
+const acceptData = () => {
+    data["text"] = input.value
+    console.log(data);
 }
