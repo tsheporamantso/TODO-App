@@ -1,17 +1,17 @@
-const form = document.getElementById("form");
-const textInput = document.getElementById("textInput");
-const dateInput = document.getElementById("dateInput");
-const textarea = document.getElementById("textarea")
-const msg = document.getElementById("msg");
-const tasks = document.getElementById("tasks");
-const add = document.getElementById("add")
+let form = document.getElementById("form");
+let textInput = document.getElementById("textInput");
+let dateInput = document.getElementById("dateInput");
+let textarea = document.getElementById("textarea")
+let msg = document.getElementById("msg");
+let tasks = document.getElementById("tasks");
+let add = document.getElementById("add")
 
 form.addEventListener("submit",(e)=> {
     e.preventDefault();
     formValidation();
 });
 
-const formValidation = () => {
+let formValidation = () => {
     if(textInput.value === ""){
         msg.innerHTML = "Task cannot be blank!"
     } else {
@@ -26,9 +26,9 @@ const formValidation = () => {
     }
 }
 
-const data = [];
+let data = [];
 
-const acceptData = () => {
+let acceptData = () => {
     data.push({
         text: textInput.value,
         date: dateInput.value,
@@ -41,37 +41,49 @@ const acceptData = () => {
     displayPost();
 };
 
-const displayPost = () => {
-    tasks.innerHTML += `
-    <div>
-    <span class="fw-bold">${data.text}</span>
-    <span class="small text-secondary">${data.date}</span>
-    <p>${data.description}</p>
-    <span class="options">
-      <i onClick="editPost(this)" data-bs-toggle="modal" data-bs-target="#form" class="fa-solid fa-pen-to-square fa-beat-fade"></i>
-      <i onClick="deletePost(this)" class="fa-solid fa-trash-can fa-beat-fade"></i>
-    </span>
-  </div>  
-    `;
+let displayPost = () => {
+    tasks.innerHTML = "";
+    data.map((x,y)=>{
+        return (tasks.innerHTML += `
+        <div id=${y}>
+        <span class="fw-bold">${x.text}</span>
+        <span class="small text-secondary">${x.date}</span>
+        <p>${x.description}</p>
+        <span class="options">
+          <i onClick="editPost(this)" data-bs-toggle="modal" data-bs-target="#form" class="fa-solid fa-pen-to-square fa-beat-fade"></i>
+          <i onClick="deletePost(this);displayPost()" class="fa-solid fa-trash-can fa-beat-fade"></i>
+        </span>
+      </div>  
+        `);
+    })
+
     formReset();
 }
 
-const formReset = () => {
+let formReset = () => {
     textInput.value = "";
     dateInput.value = "";
     textarea.value = "";
 }
 
-const deletePost = (e) => {
+let deletePost = (e) => {
+    data.splice(e.parentElement.parentElement.id, 1)
+    localStorage.setItem("data", JSON.stringify(data))
     e.parentElement.parentElement.remove()
 }
 
-const editPost = (e) => {
+let editPost = (e) => {
     let selectedTask = e.parentElement.parentElement;
     
     textInput.value = selectedTask.children[0].innerHTML;
     dateInput.value = selectedTask.children[1].innerHTML;
     textarea.value = selectedTask.children[2].innerHTML;
     
-    selectedTask.remove();
+    deletePost(e)
 }
+
+(() => {
+    data = JSON.parse(localStorage.getItem("data")) || [];
+    displayPost()
+    console.log(data)
+})()
