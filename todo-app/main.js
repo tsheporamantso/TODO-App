@@ -42,7 +42,7 @@ const displayPost = () => {
     <span class="small text-secondary">${data.date}</span>
     <p>${data.description}</p>
     <span class="options">
-      <i onClick="editPost(this)" class="fa-solid fa-pen-to-square fa-beat-fade"></i>
+      <i onClick="editPost(this)" data-bs-toggle="modal" data-bs-target="#form" class="fa-solid fa-pen-to-square fa-beat-fade"></i>
       <i onClick="deletePost(this)" class="fa-solid fa-trash-can fa-beat-fade"></i>
     </span>
   </div>  
@@ -61,5 +61,11 @@ const deletePost = (e) => {
 }
 
 const editPost = (e) => {
-    tasks.value = e.parentElement.previousElementSibling.innerHTML;
+    let selectedTask = e.parentElement.parentElement;
+    
+    textInput.value = selectedTask.children[0].innerHTML;
+    dateInput.value = selectedTask.children[1].innerHTML;
+    textarea.value = selectedTask.children[2].innerHTML;
+    
+    selectedTask.remove();
 }
