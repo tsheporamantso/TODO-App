@@ -51,5 +51,5 @@ const formReset = () => {
 }
 
 const deletePost = (e) => {
-    e.remove()
+    e.parentElement.parentElement.remove()
 }
