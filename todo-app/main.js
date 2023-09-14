@@ -37,7 +37,6 @@ let acceptData = () => {
     });
 
     localStorage.setItem("data", JSON.stringify(data))
-    console.log(data)
     displayPost();
 };
 
