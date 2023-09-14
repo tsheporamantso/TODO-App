@@ -26,14 +26,20 @@ const formValidation = () => {
     }
 }
 
-const data = {};
+const data = [];
 
 const acceptData = () => {
-    data["text"] = textInput.value
-    data["date"] = dateInput.value
-    data["description"] = textarea.value
+    data.push({
+        text: textInput.value,
+        date: dateInput.value,
+        description: textarea.value,
+        
+    });
+
+    localStorage.setItem("data", JSON.stringify(data))
+    console.log(data)
     displayPost();
-}
+};
 
 const displayPost = () => {
     tasks.innerHTML += `
